@@ -1,3 +1,5 @@
+// カウンターの練習
+
 import React, { useState } from "react"
 
 
