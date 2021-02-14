@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 
  // 初期値の定義
@@ -12,6 +12,19 @@ export default function App(props) {
 
   const [state, setState] = useState(props)
   const { name, price } = state
+
+  useEffect (() => {
+    console.log('This is like componentDidMount or componentDidUpdate.')
+  })
+
+  useEffect (() => {
+    console.log('This is like componentDidMount')
+  }, [])
+
+  useEffect (() => {
+    console.log('This callback is for name only.')
+  }, [name])
+
 
   return (
     <div>
