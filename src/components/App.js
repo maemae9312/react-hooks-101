@@ -9,7 +9,7 @@ export default function App () {
   const [title,setTitle] = useState('')
   const [body, setBody] = useState('')
 
-  const addEvent = (e) => {
+  const addEvent = e => {
     e.preventDefault()
 
     dispatch({
@@ -20,6 +20,15 @@ export default function App () {
     setTitle('')
     setBody('')
   }
+
+  const deleteAllEvents = e => {
+    e.preventDefault()
+    const result = window.confirm('Is it really okay to delete all events?')
+    if (result) dispatch({ type: 'DELETE_ALL_EVENTS' })
+  }
+
+  const unCreatable = title === '' || body === ''
+
   return (
     <div className="container-fluid">
       <h4>イベント作成フォーム</h4>
@@ -34,8 +43,8 @@ export default function App () {
           <textarea className="form-control" id="formEventBody" value={body} onChange={e => setBody(e.target.value)} />
         </div>
 
-        <button className="btn btn-primary" onClick={addEvent} >イベントを作成する</button>
-        <button className="btn btn-danger">全てのイベントを削除する</button>
+        <button className="btn btn-primary" onClick={addEvent} disabled={unCreatable} >イベントを作成する</button>
+        <button className="btn btn-danger" onClick={deleteAllEvents} disabled={state.length === 0} >全てのイベントを削除する</button>
 
         <h4>イベント一覧</h4>
         <table className="table table-hover">
