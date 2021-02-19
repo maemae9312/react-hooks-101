@@ -19,9 +19,11 @@ export default function OperationLogs(){
         <tbody>
           {
             state.operationLogs.map((operationLog, index) => {
+              return <OperationLog key={index} operationLog={operationLog} />
             })
           }
         </tbody>
       </table>
+    </>
   )
 }
