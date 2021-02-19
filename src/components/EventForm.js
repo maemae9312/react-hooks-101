@@ -2,9 +2,12 @@ import React, { useContext, useState } from 'react'
 
 import {
   CREATE_EVENT,
-  DELETE_ALL_EVENTS
+  DELETE_ALL_EVENTS,
+  ADD_OPERATION_LOG,
+  DELETE_ALL_OPERATION_LOGS
 } from '../actions'
 import AppContext from '../contexts/AppContext'
+import { timeCurrentIso8601 } from '../utils'
 
 export default function EventForm () {
   const { state, dispatch } = useContext(AppContext)
@@ -19,6 +22,13 @@ export default function EventForm () {
       title,
       body,
     })
+
+    dispatch({
+      type: ADD_OPERATION_LOG,
+      description: 'Created an event',
+      operatedAt: timeCurrentIso8601()
+    })
+
     setTitle('')
     setBody('')
   }
@@ -26,7 +36,15 @@ export default function EventForm () {
   const deleteAllEvents = e => {
     e.preventDefault()
     const result = window.confirm('Is it really okay to delete all events?')
-    if (result) dispatch({ type: DELETE_ALL_EVENTS })
+    if (result){
+      dispatch({ type: DELETE_ALL_EVENTS })
+
+      dispatch({
+        type: ADD_OPERATION_LOG,
+        description: 'Removed all events',
+        operatedAt: timeCurrentIso8601()
+      })
+    }
   }
 
   const unCreatable = title === '' || body === ''
